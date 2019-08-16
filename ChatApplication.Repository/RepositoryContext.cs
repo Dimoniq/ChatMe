@@ -10,5 +10,11 @@ namespace ChatApplication.Repository
     }
 
     public DbSet<User> Users { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+      optionsBuilder.UseSqlite("Filename=ChatMeDatabase.db");
+      base.OnConfiguring(optionsBuilder);
+    }
   }
 }

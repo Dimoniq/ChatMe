@@ -23,17 +23,22 @@ namespace ChatApplication
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-      services.AddDbContext<RepositoryContext>(options =>
-        options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+      services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>();
       services.AddSignalR();
       services.AddMvc();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, RepositoryContext repositoryContext)
     {
       app.UseSignalR(config => config.MapHub<ChatHub>("/chatHub"));
       app.UseMvc(routes => { routes.MapRoute("default", "{controller=Login}/{action=Get}/{id?}"); });
+
+      if (this.configuration.GetValue<bool>("ShouldCreateDBIfNotExists"))
+      {
+        repositoryContext.Database.EnsureCreated();
+        repositoryContext.Database.Migrate();
+      }
     }
   }
 }

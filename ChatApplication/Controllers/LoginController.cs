@@ -22,11 +22,7 @@ namespace ChatApplication.Controllers
       this.repoWrapper.User.Create(new User{Password = "Password", UserId = Guid.NewGuid(), Username = "Dmytro"});
       this.repoWrapper.Save();
       List<User> users = this.repoWrapper.User.FindAll().ToList();
-      return new List<string>
-      {
-        "Hello",
-        "World"
-      };
+      return users.Select(u => $"Id: {u.UserId}, Username: {u.Username}, password: {u.Password}");
     }
   }
 }

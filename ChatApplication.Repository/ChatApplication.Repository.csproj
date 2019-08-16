@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Contracts\ChatApplication.Contracts.csproj" />
     <ProjectReference Include="..\ChatApplication.Entities\ChatApplication.Entities.csproj" />
   </ItemGroup>
