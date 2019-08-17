@@ -1,0 +1,32 @@
+﻿@model ChatApplication.Entities.Models.User
+@{ Layout = "_LoginLayout"; }
+
+@section PageTitle
+{
+    <title>ChatMe Login page</title>
+}
+
+<h1>Login</h1>
+@Html.ValidationMessage("Summary") <br>
+@using (Html.BeginForm(true))
+{
+    @Html.LabelFor(model => model.Username)
+    <br>
+    @Html.EditorFor(model => model.Username)
+    <br>
+    @Html.ValidationMessageFor(model => model.Username)
+    <br>
+
+    @Html.LabelFor(model => model.Password)
+    <br>
+    @Html.PasswordFor(model => model.Password)
+    <br>
+    @Html.ValidationMessageFor(model => model.Password)
+    <br>
+
+    <input type="submit" value="Log in"/>
+    <hr/>
+    <div>Do not have an account?</div>
+    <br>
+    @Html.ActionLink("REGISTER HERE", "SignUp")
+}

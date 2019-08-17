@@ -10,13 +10,13 @@ namespace ChatApplication.Entities.Models
     [Key] public Guid UserId { get; set; }
 
     [Required(ErrorMessage = "Username is required")]
+    [StringLength(20, MinimumLength = 3, ErrorMessage = "The username has to be from 3 to 20 characters long")]
     [MinLength(3, ErrorMessage = "The username has to be at least 3 characters long")]
     [MaxLength(20, ErrorMessage = "The username should not be longer than 20 characters")]
     public string Username { get; set; }
 
     [Required(ErrorMessage = "Password is required")]
-    [MinLength(4, ErrorMessage = "Password has to be at least 4 characters long")]
-    [MaxLength(32, ErrorMessage = "The password should not be longer than 32 characters")]
+    [StringLength(32, MinimumLength = 4, ErrorMessage = "The password has to be from 4 to 32 characters long")]
     public string Password { get; set; }
   }
 }

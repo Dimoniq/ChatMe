@@ -32,7 +32,7 @@ namespace ChatApplication
     public void Configure(IApplicationBuilder app, RepositoryContext repositoryContext)
     {
       app.UseSignalR(config => config.MapHub<ChatHub>("/chatHub"));
-      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Login}/{action=Get}/{id?}"); });
+      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Login}/{action=LogIn}/{id?}"); });
 
       if (this.configuration.GetValue<bool>("ShouldCreateDBIfNotExists"))
       {
