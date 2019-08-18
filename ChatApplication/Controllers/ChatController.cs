@@ -6,12 +6,17 @@ namespace ChatApplication.Controllers
   {
     public ChatController()
     {
-      
     }
+
     public IActionResult Index(string username)
     {
       ViewBag.Username = username;
       return View();
+    }
+
+    public IActionResult Privacy()
+    {
+      return this.View();
     }
   }
 }
