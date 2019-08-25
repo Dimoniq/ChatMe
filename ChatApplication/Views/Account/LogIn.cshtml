@@ -21,13 +21,11 @@
                 @Html.ValidationMessageFor(model => model.Password, null, new {@class = "text-danger"})
             </div>
 
-            <input type="submit" value="Log in"/>
-            <hr/>
+            <button type="submit" class="btn btn-primary">Log in</button>
         }
     </div>
 </div>
 
-
+<hr/>
 <div>Do not have an account?</div>
-
 @Html.ActionLink("SIGN UP HERE", "SignUp")
