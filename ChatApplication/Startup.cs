@@ -50,7 +50,7 @@ namespace ChatApplication
 
       app.UseAuthentication();
 
-      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Login}/{action=LogIn}/{id?}"); });
+      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Account}/{action=LogIn}/{id?}"); });
 
       if (this.configuration.GetValue<bool>("ShouldCreateDBIfNotExists"))
       {
