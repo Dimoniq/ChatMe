@@ -2,10 +2,8 @@
 using ChatApplication.Hubs;
 using ChatApplication.Repository;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +34,6 @@ namespace ChatApplication
       services.AddSignalR();
       services.AddMvc();
       services.AddDefaultIdentity<IdentityUser>()
-        .AddDefaultUI(UIFramework.Bootstrap4)
         .AddEntityFrameworkStores<RepositoryContext>();
     }
 
@@ -50,7 +47,10 @@ namespace ChatApplication
 
       app.UseAuthentication();
 
-      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Account}/{action=LogIn}/{id?}"); });
+      app.UseMvc(routes =>
+      {
+        routes.MapRoute("default", "{controller=Account}/{action=LogIn}/{id?}");
+      });
 
       if (this.configuration.GetValue<bool>("ShouldCreateDBIfNotExists"))
       {
