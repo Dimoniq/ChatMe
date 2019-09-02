@@ -36,14 +36,17 @@ namespace ChatApplication.Controllers
       }
 
       var result =
-        await this.signInManager.PasswordSignInAsync(userToLogIn.Username, userToLogIn.Password, userToLogIn.RememberMe, false);
+        await this.signInManager.PasswordSignInAsync(userToLogIn.Username, userToLogIn.Password, userToLogIn.RememberMe,
+          false);
 
       if (!result.Succeeded)
       {
-        this.ModelState.AddModelError("Summary", "The username or password is wrong."); 
+        this.ModelState.AddModelError("Summary", "The username or password is wrong.");
+        this.logger.LogWarning($"Login attempt for {userToLogIn.Username} failed");
         return this.View(userToLogIn);
       }
 
+      this.logger.LogInformation($"The user {userToLogIn.Username} was successfully logged in");
       return this.RedirectToAction("Index", "Chat");
     }
 
@@ -72,12 +75,14 @@ namespace ChatApplication.Controllers
       if (result.Succeeded)
       {
         await this.signInManager.SignInAsync(newUser, false);
+        this.logger.LogInformation($"{userToSignUp.Username} registered as a new user. ");
         return this.RedirectToAction("Index", "Chat", new {username = userToSignUp.Username});
       }
 
       foreach (var error in result.Errors.Select(x => x.Description))
       {
         this.ModelState.AddModelError("Summary", error);
+        this.logger.LogInformation($"SignUp error: {error}");
       }
 
       return this.View();
@@ -86,6 +91,7 @@ namespace ChatApplication.Controllers
     [HttpPost]
     public async Task<IActionResult> LogOut(string returnUrl = null)
     {
+      this.logger.LogInformation($"{this.User.Identity.Name} singed out");
       await this.signInManager.SignOutAsync();
 
       if (string.IsNullOrWhiteSpace(returnUrl))
