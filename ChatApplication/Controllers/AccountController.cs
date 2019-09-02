@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ChatApplication.Contracts;
-using ChatApplication.Entities.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ChatApplication.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApplication.Controllers
 {
   public class AccountController : Controller
   {
-    private readonly IRepositoryWrapper repoWrapper;
+    private readonly ILogger<AccountController> logger;
+    private readonly SignInManager<IdentityUser> signInManager;
+    private readonly UserManager<IdentityUser> userManager;
 
-    public AccountController(IRepositoryWrapper repoWrapper)
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+      ILogger<AccountController> logger)
     {
-      this.repoWrapper = repoWrapper;
+      this.userManager = userManager;
+      this.signInManager = signInManager;
+      this.logger = logger;
     }
 
     [HttpGet]
@@ -25,28 +28,23 @@ namespace ChatApplication.Controllers
     }
 
     [HttpPost]
-    public IActionResult LogIn(LogInViewModel userToLogIn, [FromServices] SignInManager<IdentityUser> signInManager)
+    public async Task<IActionResult> LogIn(LogInViewModel userToLogIn)
     {
-      if (this.ModelState.IsValid)
+      if (!this.ModelState.IsValid)
       {
-        if (this.IsAuthorizedUser(userToLogIn))
-        {
-          return this.RedirectToAction("Index", "Chat", new {username = userToLogIn.Username});
-        }
-        else
-        {
-          this.ModelState.AddModelError("Summary", "The user with this username and password does not exist.");
-        }
+        return this.View(userToLogIn);
       }
 
-      return this.View(userToLogIn);
-    }
+      var result =
+        await this.signInManager.PasswordSignInAsync(userToLogIn.Username, userToLogIn.Password, userToLogIn.RememberMe, false);
 
-    private bool IsAuthorizedUser(LogInViewModel userToLogIn)
-    {
-      return this.repoWrapper.User.FindByCondition(user =>
-        user.Username.Equals(userToLogIn.Username, StringComparison.InvariantCultureIgnoreCase) &&
-        user.Password.Equals(userToLogIn.Password)).Any();
+      if (!result.Succeeded)
+      {
+        this.ModelState.AddModelError("Summary", "The username or password is wrong."); 
+        return this.View(userToLogIn);
+      }
+
+      return this.RedirectToAction("Index", "Chat");
     }
 
 
@@ -57,17 +55,45 @@ namespace ChatApplication.Controllers
     }
 
     [HttpPost]
-    public IActionResult SignUp(SignUpViewModel userToSignUp)
+    public async Task<IActionResult> SignUp(SignUpViewModel userToSignUp)
     {
-      if (this.ModelState.IsValid)
+      if (!this.ModelState.IsValid)
       {
-        this.repoWrapper.User.Create(new User {Password = userToSignUp.Password, UserId = Guid.NewGuid(), Username = userToSignUp.Username});
-        this.repoWrapper.Save();
+        return this.View(userToSignUp);
+      }
 
+      var newUser = new IdentityUser
+      {
+        UserName = userToSignUp.Username
+      };
+
+      var result = await this.userManager.CreateAsync(newUser, userToSignUp.Password);
+
+      if (result.Succeeded)
+      {
+        await this.signInManager.SignInAsync(newUser, false);
         return this.RedirectToAction("Index", "Chat", new {username = userToSignUp.Username});
       }
 
-      return this.View(userToSignUp);
+      foreach (var error in result.Errors.Select(x => x.Description))
+      {
+        this.ModelState.AddModelError("Summary", error);
+      }
+
+      return this.View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LogOut(string returnUrl = null)
+    {
+      await this.signInManager.SignOutAsync();
+
+      if (string.IsNullOrWhiteSpace(returnUrl))
+      {
+        return this.RedirectToAction("Index", "Chat");
+      }
+
+      return this.Redirect(returnUrl);
     }
   }
 }

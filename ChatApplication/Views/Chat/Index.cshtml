@@ -1,3 +1,15 @@
-﻿
-<h1> @ViewBag.Username, welcome to the chat</h1>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 
+@{
+    ViewData["Title"] = "Chat Me";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1> @User.Identity.Name, welcome to the chat</h1>
+}
+else
+{
+    <h1>Welcome ! Please log in to continue...</h1>
+}

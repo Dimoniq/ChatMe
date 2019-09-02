@@ -35,6 +35,17 @@ namespace ChatApplication
       services.AddMvc();
       services.AddDefaultIdentity<IdentityUser>()
         .AddEntityFrameworkStores<RepositoryContext>();
+
+      services.Configure<IdentityOptions>(options =>
+      {
+        // Default Password settings.
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 4;
+        options.Password.RequiredUniqueChars = 1;
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,10 +58,7 @@ namespace ChatApplication
 
       app.UseAuthentication();
 
-      app.UseMvc(routes =>
-      {
-        routes.MapRoute("default", "{controller=Account}/{action=LogIn}/{id?}");
-      });
+      app.UseMvc(routes => { routes.MapRoute("default", "{controller=Chat}/{action=Index}"); });
 
       if (this.configuration.GetValue<bool>("ShouldCreateDBIfNotExists"))
       {
