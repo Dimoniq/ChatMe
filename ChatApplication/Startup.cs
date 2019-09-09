@@ -1,7 +1,8 @@
-﻿using ChatApplication.Contracts;
-using ChatApplication.Hubs;
+﻿using ChatApplication.BusinessLayer;
+using ChatApplication.Contracts;
 using ChatApplication.Repository;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,8 +50,13 @@ namespace ChatApplication
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, RepositoryContext repositoryContext)
+    public void Configure(IApplicationBuilder app, RepositoryContext repositoryContext, IHostingEnvironment env)
     {
+     if(env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+
       app.UseSignalR(config => config.MapHub<ChatHub>("/chatHub"));
       app.UseHttpsRedirection();
       app.UseStaticFiles();

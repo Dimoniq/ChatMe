@@ -1,12 +1,12 @@
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["signalR"] = factory();
-	else
-		root["signalR"] = factory();
+    if(typeof exports === 'object' && typeof module === 'object')
+        module.exports = factory();
+    else if(typeof define === 'function' && define.amd)
+        define([], factory);
+    else if(typeof exports === 'object')
+        exports["signalR"] = factory();
+    else
+        root["signalR"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -176,8 +176,8 @@ if (!Uint8Array.prototype.forEach) {
  */
 
 (function (global, factory) {
-	 true ? module.exports = factory() :
-	undefined;
+     true ? module.exports = factory() :
+    undefined;
 }(this, (function () { 'use strict';
 
 function objectOrFunction(x) {
@@ -1369,15 +1369,15 @@ var g;
 
 // This works in non-strict mode
 g = (function() {
-	return this;
+    return this;
 })();
 
 try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
+    // This works if eval is allowed (see CSP)
+    g = g || Function("return this")() || (1, eval)("this");
 } catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
+    // This works if the window reference is available
+    if (typeof window === "object") g = window;
 }
 
 // g can still be undefined, but nothing to do about it...

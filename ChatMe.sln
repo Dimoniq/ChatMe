@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication", "ChatApplication\ChatApplication.csproj", "{80FBC37A-D3A3-4B56-871B-B913AA0F2A2A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatClient", "ChatClient\ChatClient.csproj", "{A6A65352-91E8-4DC0-B833-8FEB22DF897C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Contracts", "ChatApplication.Contracts\ChatApplication.Contracts.csproj", "{A8DF120C-57FF-4B6C-B013-E1000FCA034F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.Contracts", "ChatApplication.Contracts\ChatApplication.Contracts.csproj", "{A8DF120C-57FF-4B6C-B013-E1000FCA034F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Entities", "ChatApplication.Entities\ChatApplication.Entities.csproj", "{B8F80893-86A1-4F35-9312-13A86297C62E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.Entities", "ChatApplication.Entities\ChatApplication.Entities.csproj", "{B8F80893-86A1-4F35-9312-13A86297C62E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Repository", "ChatApplication.Repository\ChatApplication.Repository.csproj", "{B07FF8C6-E87D-42E5-B51D-CF2CF2B5777D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.Repository", "ChatApplication.Repository\ChatApplication.Repository.csproj", "{B07FF8C6-E87D-42E5-B51D-CF2CF2B5777D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.BusinessLayer", "ChatApplication.BusinessLayer\ChatApplication.BusinessLayer.csproj", "{4519F053-1BE9-4B9E-B0DC-3C727B8A848A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B07FF8C6-E87D-42E5-B51D-CF2CF2B5777D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07FF8C6-E87D-42E5-B51D-CF2CF2B5777D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07FF8C6-E87D-42E5-B51D-CF2CF2B5777D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4519F053-1BE9-4B9E-B0DC-3C727B8A848A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4519F053-1BE9-4B9E-B0DC-3C727B8A848A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4519F053-1BE9-4B9E-B0DC-3C727B8A848A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4519F053-1BE9-4B9E-B0DC-3C727B8A848A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
