@@ -32,7 +32,7 @@ namespace ChatApplication
       });
       services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
       services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>();
-      services.AddSignalR();
+
       services.AddMvc();
       services.AddIdentity<IdentityUser, IdentityRole>()
         .AddEntityFrameworkStores<RepositoryContext>();
@@ -47,17 +47,18 @@ namespace ChatApplication
         options.Password.RequiredLength = 4;
         options.Password.RequiredUniqueChars = 1;
       });
+
+      services.AddSignalR();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, RepositoryContext repositoryContext, IHostingEnvironment env)
     {
-     if(env.IsDevelopment())
+      if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
       }
 
-      app.UseSignalR(config => config.MapHub<ChatHub>("/chatHub"));
       app.UseHttpsRedirection();
       app.UseStaticFiles();
       app.UseCookiePolicy();
@@ -71,6 +72,8 @@ namespace ChatApplication
         repositoryContext.Database.EnsureCreated();
         repositoryContext.Database.Migrate();
       }
+
+      app.UseSignalR(config => config.MapHub<ChatHub>("/chatHub"));
     }
   }
 }

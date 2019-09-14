@@ -7,8 +7,7 @@ document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage",
     function(user, message) {
-        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        var encodedMsg = user + ": " + msg;
+        var encodedMsg = user + ": " + message;
         var messageOutput = document.getElementById("messageOutput");
         if (!messageOutput.value.isEmpty()) {
             messageOutput.value += "\n";
