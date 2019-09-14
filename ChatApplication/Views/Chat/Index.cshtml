@@ -1,31 +1,22 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-
-@{
+﻿@{
     ViewData["Title"] = "Chat Me";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    @Html.Hidden("usernameHidden", User.Identity.Name);
-    <div class="col-md-12">
-        <div class="row">
-            <div >
-                <textarea name="MessageOutput" id="messageOutput" class="form-control" 
-                          rows="15" cols="100" disabled="disabled" ></textarea>
-                
-                <div class="form-inline">
-                    @Html.Editor("messageInput", new { htmlAttributes = new { @class = "form-control col-md-10" } })
 
-                    <input type="button" class="btn btn-primary col-md-2" id="sendButton" value="Send" />
-                </div>
+@Html.Hidden("usernameHidden", User.Identity.Name)
+<div class="col-md-12">
+    <div class="row">
+        <div >
+            <textarea name="MessageOutput" id="messageOutput" class="form-control" 
+                          rows="15" cols="100" disabled="disabled" ></textarea>
+
+            <div class="form-inline">
+                @Html.Editor("messageInput", new {htmlAttributes = new {@class = "form-control col-md-10"}})
+
+                <input type="button" class="btn btn-primary col-md-2" id="sendButton" value="Send"/>
             </div>
         </div>
     </div>
-    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
-}
-else
-{
-    <h2>Welcome ! Please log in to continue...</h2>
-}
+</div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

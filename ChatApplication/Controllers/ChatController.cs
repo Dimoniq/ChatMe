@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApplication.Controllers
 {
   public class ChatController : Controller
   {
+    [Authorize]
     public IActionResult Index()
     {
       return this.View();

@@ -34,7 +34,7 @@ namespace ChatApplication
       services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>();
       services.AddSignalR();
       services.AddMvc();
-      services.AddDefaultIdentity<IdentityUser>()
+      services.AddIdentity<IdentityUser, IdentityRole>()
         .AddEntityFrameworkStores<RepositoryContext>();
 
       services.Configure<IdentityOptions>(options =>
