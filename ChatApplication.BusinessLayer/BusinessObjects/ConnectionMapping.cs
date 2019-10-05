@@ -43,6 +43,11 @@ namespace ChatApplication.BusinessLayer.BusinessObjects
       return Enumerable.Empty<string>();
     }
 
+    public IEnumerable<T> GetOnlineUsers()
+    {
+      return this.connections.Keys;
+    }
+
     public void Remove(T key, string connectionId)
     {
       lock (this.connections)

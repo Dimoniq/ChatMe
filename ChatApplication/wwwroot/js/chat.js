@@ -1,6 +1,7 @@
 ﻿"use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+var connectedUsers = new Array();
 
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
@@ -8,13 +9,34 @@ document.getElementById("sendButton").disabled = true;
 connection.on("ReceiveMessage",
     function(user, message) {
         var encodedMsg = user + ": " + message;
-        var messageOutput = document.getElementById("messageOutput");
-        if (!messageOutput.value.isEmpty()) {
-            messageOutput.value += "\n";
-        }
-        messageOutput.value += encodedMsg;
-        $(messageOutput).scrollTop($(messageOutput)[0].scrollHeight);
+        addOutputMessage(encodedMsg);
     });
+
+connection.on("ReceiveOnlineUsers",
+    function(onlineUsers) {
+        connectedUsers = Array.from(onlineUsers);
+        updateOnlineUsers();
+    });
+
+connection.on("UserLoggedIn",
+    function(loggedInUser) {
+        connectedUsers.push(loggedInUser);
+        updateOnlineUsers();
+        addOutputMessage(loggedInUser + " has just logged in.");
+    }
+);
+
+connection.on("UserLoggedOut",
+    function (loggedOutUser) {
+        var indexOfUser = connectedUsers.indexOf(loggedOutUser);
+        if (indexOfUser >= 0) {
+            connectedUsers.splice(indexOfUser, 1);
+            updateOnlineUsers();
+        }
+        
+        addOutputMessage(loggedOutUser + " has just logged out.");
+    }
+);
 
 connection.start().then(function() {
     document.getElementById("sendButton").disabled = false;
@@ -22,6 +44,21 @@ connection.start().then(function() {
     return console.error(err.toString());
 });
 
+function updateOnlineUsers() {
+    var onlineUsersArea = document.getElementById("onlineUsers");
+    onlineUsersArea.value = connectedUsers.join("\n");
+};
+
+function addOutputMessage(message) {
+    var messageOutput = document.getElementById("messageOutput");
+
+    if (!messageOutput.value.isEmpty()) {
+        messageOutput.value += "\n";
+    }
+
+    messageOutput.value += message;
+    $(messageOutput).scrollTop($(messageOutput)[0].scrollHeight);
+};
 
 function sendMessage() {
     var messageInputArea = document.getElementById("messageInput");

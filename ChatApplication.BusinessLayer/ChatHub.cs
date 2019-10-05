@@ -26,7 +26,9 @@ namespace ChatApplication.BusinessLayer
 
     public override Task OnConnectedAsync()
     {
+      this.Clients.Caller.SendAsync("ReceiveOnlineUsers", Connections.GetOnlineUsers()); 
       var name = this.Context.User.Identity.Name;
+      this.Clients.Others.SendAsync("UserLoggedIn", name);
       Connections.Add(name, this.Context.ConnectionId);
       this.logger.LogInformation($"{name} connected with id {this.Context.ConnectionId}");
       return base.OnConnectedAsync();
@@ -35,6 +37,7 @@ namespace ChatApplication.BusinessLayer
     public override Task OnDisconnectedAsync(Exception exception)
     {
       var name = this.Context.User.Identity.Name;
+      this.Clients.Others.SendAsync("UserLoggedOut", name);
       Connections.Remove(name, this.Context.ConnectionId);
       this.logger.LogInformation($"{name} disconnected with id {this.Context.ConnectionId}");
 
